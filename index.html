@@ -80,7 +80,10 @@
       });
 
       function createChatMessageElement(data) {
-        var newEl = $("<p><strong>"+data.nick+":</strong> <span>"+data.message+"</span>");
+        var datetime = data.datetime.toString();
+        datetime = datetime.replace("T", " ");
+        datetime = datetime.replace(/\.\d*Z/, "");
+        var newEl = $("<p>"+datetime+" - <strong>"+data.nick+":</strong> <span>"+data.message+"</span>");
         $("#chat-messages").append(newEl);
       };
 

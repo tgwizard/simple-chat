@@ -44,6 +44,7 @@ io.sockets.on('connection', function (socket) {
 
   socket.on('message', function (message) {
     console.log(message);
+    message.datetime = new Date();
     latestMessages.push(message);
     if (latestMessages.length > latestMessagesLimit)
       latestMessages = latestMessages.slice(latestMessages.length - latestMessagesLimit);
