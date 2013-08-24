@@ -13,7 +13,12 @@
       <hr/>
       <div class="panel panel-primary">
         <div class="panel-heading">Public chat - <span class="num-users">0</span> connected users</div>
-        <div id="chat-messages" class="panel-body">
+        <div class="panel-body">
+          <div id="chat-messages">
+          </div>
+          <div id="loading-screen">
+            <p>Loading...</p>
+          </div>
         </div>
       </div>
       <div class="panel panel-default">
@@ -47,9 +52,13 @@
       var socket = io.connect(host);
       socket.on('hello', function(data) {
         console.log("Hello message from server: ", data);
+        $("#loading-screen").hide();
+
         var nick = $.cookie("nick");
         $("#nick-name").val(nick || data.nick);
+
         $("#message").focus();
+
         for (var i in data.messages) {
           var msg = data.messages[i];
           createChatMessageElement(msg);
