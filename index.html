@@ -11,13 +11,14 @@
     <div class="container">
       <h1>Simple Chat</h1>
       <hr/>
+
       <div class="panel panel-primary">
         <div class="panel-heading">Public chat - <span class="num-users">0</span> connected users</div>
         <div class="panel-body">
           <div id="chat-messages">
           </div>
           <div id="loading-screen">
-            <p>Loading...</p>
+            <p>Negotiating communication protocols and loading initial data...</p>
           </div>
         </div>
       </div>
@@ -26,19 +27,23 @@
         <div class="panel-body">
           <form id="send-form" role="form" action="">
             <div class="form-group">
-              <input type="text" id="message" placeholder="Message" required class="form-control" />
+              <input type="text" id="message" placeholder="Message" required disabled class="form-control" />
             </div>
             <div class="form-inline">
               <div class="form-group">
-                <input type="text" id="nick-name" placeholder="Nick name" required class="form-control" />
+                <input type="text" id="nick-name" placeholder="Nick name" required disabled class="form-control" />
               </div>
               <div class="form-group">
-                <input type="submit" class="btn btn-primary" value="Send" />
+                <input type="submit" class="btn btn-primary" disabled value="Send" />
               </div>
             </div>
           </form>
         </div>
       </div>
+
+      <p>
+      Recent messages are stored non-persistenly on the server.
+      </p>
     </div>
 
     <!-- JavaScript -->
@@ -52,13 +57,14 @@
       var socket = io.connect(host);
       socket.on('hello', function(data) {
         console.log("Hello message from server: ", data);
-        $("#loading-screen").hide();
 
         var nick = $.cookie("nick");
         $("#nick-name").val(nick || data.nick);
 
+        $("#send-form input").removeAttr("disabled");
         $("#message").focus();
 
+        $("#loading-screen").hide();
         for (var i in data.messages) {
           var msg = data.messages[i];
           createChatMessageElement(msg);
